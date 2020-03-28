@@ -13,9 +13,9 @@ db.connect( (err) => {
     db.query('use wsxdemo');
 });
 
-db.executeQuery =  async function (query){
+query =  async function (q){
     return new Promise(function(resolve, reject){
-        db.query(query, (err, result) => {
+        db.query(q, (err, result) => {
             if (result) resolve(result);
             else {
                 reject(err);}
@@ -23,4 +23,4 @@ db.executeQuery =  async function (query){
     })
 }
 
-module.exports = db;
+module.exports = query;
