@@ -14,34 +14,6 @@ class StaffMember {
         this.requiredFields = ['email', 'plainPassword', 'firstName', 'lastName'];
     }
 
-    setId(id) {
-        this.id = id;
-    }
-
-    setEmail(email) {
-        this.email = email;
-    }
-
-    setEncryptedPassword(encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
-
-    setPlainPassword(plainPassword) {
-        this.plainPassword = plainPassword;
-    }
-
-    setFirstName(fName) {
-        this.firstName = fName;
-    }
-
-    setLastName(lName) {
-        this.lastName = lName;
-    }
-
-    setWorkspaceId(workspaceId) {
-        this.workspaceId = workspaceId;
-    }
-
     async validateRegistration() {
         if (this.plainPassword.length < 6) return {success: false, reason: 'Password must be at least 6 characters'};
         for (var i in this.requiredFields) {
@@ -49,8 +21,9 @@ class StaffMember {
                 return { success: false, reason: `${this.requiredFields[i]} is required` };
         }
         if (!validator.validate(this.email)) return { success: false, reason: `invalid Email` };
-        const usersWithEmail = await executeQuery(`select email from StaffMember where email='${this.email}'`);
-        if (usersWithEmail.length) return { success: false, reason: `E-mail already exists` };
+        const usersWithEmail = await executeQuery(`select * from StaffMember where email='${this.email}'`);
+        if (usersWithEmail.length)
+            return { success: false, reason: `E-mail already exists` };
         if (this.workspaceId) {
             const wokrspace = await executeQuery(`select * from Workspace where id = ${this.workspaceId}`);
             if (!wokrspace.length) return {success: false, reason: `Workspace does not exist`};
@@ -65,7 +38,9 @@ class StaffMember {
     }
     async register() {
         await this.encrypt();
-        if (!this.validateRegistration().success) return this.validateRegistration();
+        var validation = await this.validateRegistration();
+        if (!validation.success) 
+            return validation;
         var columns = ['email', 'encryptedPassword', 'firstName', 'lastName'];
         var values = [this.email, this.encryptedPassword, this.firstName, this.lastName];
         if (this.workspaceId) {
@@ -75,9 +50,24 @@ class StaffMember {
         for (var i in values) {
             values[i] = `'${values[i]}'`;
         }
-        var q = `insert into StaffMember (${columns.join(', ')}) values (${values.join(',')})`;
-        var result = await executeQuery(q);
-        return result;
+        var q = `insert into StaffMember (${columns.join(', ')}) values (${values.join(',')})`; 
+        try {
+            var result = await executeQuery(q);
+            return result;   
+        } catch (error) {
+            return `error in SQL: ${error.message}`
+        }
+    }
+
+    async login() {
+        if (!this.email || !this.plainPassword) return {success: false, reason: "E-mail and password are required"};
+        const user = await executeQuery(`select * from StaffMember where email = '${this.email}'`);
+        if (!user || !user.length) return {success: false, reason: "E-mail does not exist"};
+        if (await bcrypt.compareSync(this.plainPassword,user[0].encryptedPassword)) {
+            return {success: true};
+        } else {
+            return {success: false, reason: `E-mail and password don't match`};
+        }
     }
 
 }
