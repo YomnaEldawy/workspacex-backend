@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "workspacex",
+            "dialect": "MySQL",
+            "name": "demo",
+            "password": "password",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
+}

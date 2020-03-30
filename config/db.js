@@ -9,8 +9,7 @@ const db = mysql.createConnection ({
 
 db.connect( (err) => {
     if(err) {
-        return console.log(err);}
-    db.query('use wsxdemo');
+        return console.log('Error connecting to db' , err);}
 });
 
 query =  async function (q){
