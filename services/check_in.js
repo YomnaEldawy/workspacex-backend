@@ -10,7 +10,6 @@ async function isValidWorkspacdId(id) {
 async function isValidUserId(id) {
   const query = `select * from Customer where id = ${id}`;
   const res = await executeQuery(query);
-  console.log("service layer:", res);
   if (res.length > 0) return true;
   return false;
 }

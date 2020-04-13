@@ -9,6 +9,7 @@ app.use("/staff", require("./routes/staff"));
 app.use("/customer", require("./routes/customer"));
 app.use("/workspace", require("./routes/workspace"));
 app.use("/checkin", require("./routes/check_in"));
+app.use("/dashboard", require("./routes/staff_dashboard"));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
