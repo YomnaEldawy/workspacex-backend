@@ -1,11 +1,17 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 
-app.use('/staff', require('./routes/staff'));
-app.use('/customer', require('./routes/customer'));
+app.use("/staff", require("./routes/staff"));
+app.use("/customer", require("./routes/customer"));
+app.use("/workspace", require("./routes/workspace"));
+app.use("/checkin", require("./routes/check_in"));
 
 const port = process.env.PORT || 5000;
-const server = app.listen(port, ()=>{console.log("Listening on port " + port + "... ")});
+const server = app.listen(port, () => {
+  console.log("Listening on port " + port + "... ");
+});
 module.exports = server;
