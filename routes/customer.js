@@ -3,6 +3,12 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const executeQuery = require("../config/db");
 
+router.get("/:id", async (req, res) => {
+  const query = `select firstName, lastName, email from Customer where id = ${req.params.id}`;
+  const result = await executeQuery(query);
+  res.send(result);
+});
+
 router.post("/login", async (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
