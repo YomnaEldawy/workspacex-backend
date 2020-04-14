@@ -1,0 +1,32 @@
+{
+  "name": "workspacex",
+  "version": "1.0.0",
+  "description": "WorkspaceX is a system for workspaces exploration. It is used by students to explore nearest workspaces and find more about workspace prices, reviews and events. <br> This repo contains the back end (APIs) of WorkspaceX.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "jest": "^25.3.0",
+    "mysql": "^2.18.1",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YomnaEldawy/workspacex-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YomnaEldawy/workspacex-backend/issues"
+  },
+  "homepage": "https://github.com/YomnaEldawy/workspacex-backend#readme"
+}
