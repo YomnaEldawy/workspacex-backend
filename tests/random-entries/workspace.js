@@ -7,6 +7,8 @@ async function insertWorkspace(executeQuery) {
   const latitude = Math.random() * 40;
   const longitude = Math.random() * 40;
   const phone = randomString(14);
+  var id = Math.floor(Math.random() * 100000) + 1;
+
   const ws = {
     name,
     streetName,
@@ -14,10 +16,11 @@ async function insertWorkspace(executeQuery) {
     city,
     latitude,
     longitude,
-    phone
+    phone,
+    id
   };
   await executeQuery(
-    `insert into Workspace (name, streetName, streetNumber, city, latitude, longitude, phone) values ('${name}', '${streetName}', ${streetNumber}, '${city}', ${latitude}, ${longitude}, '${phone}')`
+    `insert into Workspace (id, name, streetName, streetNumber, city, latitude, longitude, phone) values (${id}, '${name}', '${streetName}', ${streetNumber}, '${city}', ${latitude}, ${longitude}, '${phone}')`
   );
   return ws;
 }

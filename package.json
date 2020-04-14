@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "jest": "^25.3.0",
     "mysql": "^2.18.1",
+    "semaphore": "^1.1.0",
     "supertest": "^4.0.2"
   },
   "devDependencies": {},

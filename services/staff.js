@@ -12,7 +12,6 @@ register = async function(user) {
   member.workspaceId = user.workspaceId;
   try {
     const result = await member.register();
-    console.log(result);
     if (result.affectedRows) {
       return { success: true };
     } else {

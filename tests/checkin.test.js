@@ -5,52 +5,44 @@ const randomCustomer = require("./random-entries/customer");
 
 var server;
 
-async function clearTables() {
-  await executeQuery("delete from checkIn");
-  await executeQuery("delete from Customer");
-  await executeQuery("delete from Workspace");
-  await executeQuery(`alter table checkIn auto_increment=1`);
-  await executeQuery(`alter table Workspace auto_increment=1`);
-  await executeQuery(`alter table Customer auto_increment=1`);
-}
+var customers = [];
+var workspaces = [];
 
 describe("signup", () => {
-  beforeAll(async () => {
+  beforeEach(async done => {
     process.env.PORT = Math.floor(Math.random() * 50000 + 3000);
-    await clearTables();
-    await randomWorkspace(10, executeQuery);
-    await randomCustomer(10, executeQuery);
+    server = await require("../index");
+    done();
   });
 
-  beforeEach(async () => {
-    server = await require("../index");
+  beforeAll(async () => {
+    workspaces = await randomWorkspace(10, executeQuery);
+    customers = await randomCustomer(10, executeQuery);
   });
 
   afterEach(async () => {
     await server.close();
   });
 
-  afterAll(async () => {
-    await clearTables();
-  });
-
   it("should create check in request", async () => {
+    const ws = workspaces[Math.floor(Math.random() * 10)];
+    const usr = customers[Math.floor(Math.random() * 10)];
     const res = await request(server)
-      .post("/checkin/3")
-      .send({ customerId: 6 });
+      .post("/checkin/" + ws.id)
+      .send({ customerId: usr.id });
     expect(res.status).toBe(200);
   });
 
   it("should return 406 if customer does not exist", async () => {
     const res = await request(server)
       .post("/checkin/3")
-      .send({ customerId: 15 });
+      .send({ customerId: 0 });
     expect(res.status).toBe(406);
   });
 
   it("should return 406 if workspace does not exist", async () => {
     const res = await request(server)
-      .post("/checkin/14")
+      .post("/checkin/0")
       .send({ customerId: 3 });
     expect(res.status).toBe(406);
   });

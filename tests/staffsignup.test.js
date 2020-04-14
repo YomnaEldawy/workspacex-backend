@@ -9,8 +9,6 @@ async function clearTables() {
 describe("signup", () => {
   beforeAll(async () => {
     process.env.PORT = Math.floor(Math.random() * 50000 + 3000);
-
-    await clearTables();
   });
 
   afterEach(async () => {
