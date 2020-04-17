@@ -32,4 +32,9 @@ describe("dashboard", () => {
     const res = await request(server).get("/dashboard/" + workspace.id);
     expect(res.body.message.length).toBe(customerIDs.length);
   });
+
+  it("should return 404 if workspace does not exist", async () => {
+    const res = await request(server).get("/dashboard/" + 0);
+    expect(res.status).toBe(404);
+  });
 });
