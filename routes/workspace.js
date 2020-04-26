@@ -7,9 +7,11 @@ router.post("/new", async (req, res) => {
     var ws_name = req.body.ws_name;
     var city = req.body.city;
     var phone = req.body.phone;
+
     if (!ws_name || !phone) {
-      res.send({ success: false });
+      return res.send({ success: false });
     }
+    console.log(req.body);
     var query =
       "insert into Workspace(name,city,phone, streetName, streetNumber) values ('" +
       ws_name +
@@ -21,9 +23,12 @@ router.post("/new", async (req, res) => {
       `, '${req.body.streetName}', '${req.body.streetNumber}'` +
       ");";
     var result = await executeQuery(query);
-    res.send(result);
+    var query2 = `update StaffMember set workspaceId=${result.insertId} where email='${req.body.loginDetails.userDetails.email}'`;
+    var result2 = await executeQuery(query2);
+    return res.send(result2);
   } catch (err) {
-    res.send({ success: false });
+    console.log(err);
+    return res.send({ success: false });
   }
 });
 

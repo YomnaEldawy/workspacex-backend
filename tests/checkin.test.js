@@ -9,7 +9,7 @@ var customers = [];
 var workspaces = [];
 
 describe("signup", () => {
-  beforeEach(async done => {
+  beforeEach(async (done) => {
     process.env.PORT = Math.floor(Math.random() * 50000 + 3000);
     server = await require("../index");
     done();
@@ -33,6 +33,18 @@ describe("signup", () => {
     expect(res.status).toBe(200);
   });
 
+  it("should not send multiple requests", async () => {
+    const ws = workspaces[Math.floor(Math.random() * 10)];
+    const usr = customers[Math.floor(Math.random() * 10)];
+    var res = await request(server)
+      .post("/checkin/" + ws.id)
+      .send({ customerId: usr.id });
+    res = await request(server)
+      .post("/checkin/" + ws.id)
+      .send({ customerId: usr.id });
+    expect(res.status).toBe(200);
+    expect(res.body.message).toContain("Request already sent");
+  });
   it("should return 406 if customer does not exist", async () => {
     const res = await request(server)
       .post("/checkin/3")

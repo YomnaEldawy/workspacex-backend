@@ -8,10 +8,7 @@ router.post("/signup", async (req, res) => {
 });
 router.post("/login", async (req, res) => {
   const result = await staffService.login(req.body.email, req.body.password);
-  res.send(result);
+  res.status(result.code).send(result);
 });
 
-router.get("/", async (req, res) => {
-  res.send("Hello Android ;)");
-});
 module.exports = router;
