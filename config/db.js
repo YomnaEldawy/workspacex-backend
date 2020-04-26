@@ -15,6 +15,7 @@ db.connect((err) => {
 
 execQuery = function (q) {
   return new Promise(function (resolve, reject) {
+    console.log(q);
     db.query(q, (err, result) => {
       if (result) resolve(result);
       else {

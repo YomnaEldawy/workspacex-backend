@@ -10,6 +10,9 @@ app.use("/customer", require("./routes/customer"));
 app.use("/workspace", require("./routes/workspace"));
 app.use("/checkin", require("./routes/check_in"));
 app.use("/dashboard", require("./routes/staff_dashboard"));
+app.use("/checkout", require("./routes/checkout"));
+app.use("/approve", require("./routes/approve"));
+app.use("/reject", require("./routes/reject"));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {

@@ -3,8 +3,6 @@ const router = express.Router();
 const checkInService = require("../services/check_in");
 const executeQuery = require("../config/db");
 
-router.post("/manual/:workspaceId", async (req, res) => {});
-
 router.post("/:workspaceId", async (req, res) => {
   const wsId = req.params.workspaceId;
   const customerId = req.body.customerId;
@@ -17,7 +15,10 @@ router.post("/:workspaceId", async (req, res) => {
     await executeQuery(query);
     res.send({ success: true, message: "Request sent" });
   } catch (err) {
-    res.send({ message: err.message });
+    var msg = err.message + "";
+    if (msg == "ER_SIGNAL_NOT_FOUND: Request already sent")
+      return res.send({ sucess: true, message: "Request already sent" });
+    else return res.send({ success: false, message: err.message });
   }
 });
 

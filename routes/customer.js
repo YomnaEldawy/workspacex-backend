@@ -26,8 +26,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
-  var query =
-    "select encrypted_password from Customer where email='" + email + "';";
+  var query = "select * from Customer where email='" + email + "';";
   var result = await executeQuery(query);
   if (result.length <= 0) {
     console.log("No account with this email");
@@ -48,7 +47,13 @@ router.post("/login", async (req, res) => {
     { id: result[0].id, email: result[0].email, type: "customer" },
     process.env.jwtKey
   );
-  return res.send({ success: true, token });
+  const userDetails = {
+    firstName: result[0].firstName,
+    lastName: result[0].lastName,
+    email: result[0].email,
+    id: result[0].id,
+  };
+  return res.send({ success: true, token, userDetails });
 });
 
 router.get("/:id", async (req, res) => {
