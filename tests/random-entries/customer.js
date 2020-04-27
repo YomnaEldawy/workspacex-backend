@@ -7,7 +7,7 @@ async function insertCustomer(executeQuery) {
   const email = `${randomString(Math.random() * 10 + 1)}@${randomString(
     Math.random(10) + 1
   )}.${randomString(Math.random(4) + 1)}`;
-  const password = randomString(Math.random(10) + 1);
+  const password = randomString(Math.random() * 10 + 1);
   const salt = await bcrypt.genSalt(10);
   var encrypted_pass = await bcrypt.hash(password, salt);
   var id = Math.floor(Math.random() * 100000) + 1;
@@ -17,7 +17,7 @@ async function insertCustomer(executeQuery) {
   return user;
 }
 
-module.exports = async function(num, executeQuery) {
+module.exports = async function (num, executeQuery) {
   var users = [];
   for (var i = 0; i < num; i++) {
     var curUser = await insertCustomer(executeQuery);
