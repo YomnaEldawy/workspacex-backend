@@ -43,9 +43,11 @@ router.post("/new", async (req, res) => {
     console.log(query);
     var result = await executeQuery(query);
     var query2 = `update StaffMember set workspaceId=${result.insertId} where email='${req.body.loginDetails.userDetails.email}'`;
+    console.log(query2);
     var result2 = await executeQuery(query2);
-    res.send(result);
+    res.send(result2);
   } catch (err) {
+    console.log(err);
     res.send({ success: false });
   }
 });
