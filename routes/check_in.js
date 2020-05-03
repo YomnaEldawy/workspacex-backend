@@ -12,8 +12,8 @@ router.post("/:workspaceId", async (req, res) => {
   if (!validCustomer) return res.status(406).send("Customer does not exist");
   if (!validWorkspace) return res.status(406).send("Workspace does not exist");
   try {
-    await executeQuery(query);
-    res.send({ success: true, message: "Request sent" });
+    var result = await executeQuery(query);
+    res.send({ success: true, message: "Request sent", id: result.insertId });
   } catch (err) {
     var msg = err.message + "";
     if (msg == "ER_SIGNAL_NOT_FOUND: Request already sent")

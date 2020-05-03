@@ -1,6 +1,9 @@
 const request = require("supertest");
 const executeQuery = require("../config/db");
 
+const randomWorkspace = require("./random-entries/workspace");
+const randomCustomer = require("./random-entries/customer");
+
 describe("CheckOut", () => {
   beforeAll(async (done) => {
     process.env.PORT = Math.floor(Math.random() * 50000 + 3000);

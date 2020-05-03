@@ -17,7 +17,7 @@ async function insertWorkspace(executeQuery) {
     latitude,
     longitude,
     phone,
-    id
+    id,
   };
   await executeQuery(
     `insert into Workspace (id, name, streetName, streetNumber, city, latitude, longitude, phone) values (${id}, '${name}', '${streetName}', ${streetNumber}, '${city}', ${latitude}, ${longitude}, '${phone}')`
@@ -25,7 +25,7 @@ async function insertWorkspace(executeQuery) {
   return ws;
 }
 
-module.exports = async function(num, executeQuery) {
+module.exports = async function (num, executeQuery) {
   var workspaces = [];
   for (var i = 0; i < num; i++) {
     const ws = await insertWorkspace(executeQuery);
