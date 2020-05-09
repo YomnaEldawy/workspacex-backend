@@ -11,7 +11,7 @@
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
-    "jest": "^25.3.0",
+    "jest": "^25.5.4",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "semaphore": "^1.1.0",
@@ -30,5 +30,6 @@
   "bugs": {
     "url": "https://github.com/YomnaEldawy/workspacex-backend/issues"
   },
-  "homepage": "https://github.com/YomnaEldawy/workspacex-backend#readme"
+  "homepage": "https://github.com/YomnaEldawy/workspacex-backend#readme",
+  "keywords": []
 }
