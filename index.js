@@ -16,6 +16,7 @@ app.use("/reject", require("./routes/reject"));
 app.use("/review", require("./routes/review"));
 app.use("/report", require("./routes/report"));
 app.use("/room", require("./routes/room"));
+app.use("/customer_view", require("./routes/customer_view"));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {

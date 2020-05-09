@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const result = await executeQuery(`select * from Workspace`);
+  const result = await executeQuery(`select * from Workspace order by name`);
   res.send(result);
 });
 

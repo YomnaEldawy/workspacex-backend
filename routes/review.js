@@ -2,6 +2,35 @@ const express = require("express");
 const router = express.Router();
 const executeQuery = require("../config/db");
 
+router.get("/customer-status/:workspaceId/:customerId", async (req, res) => {
+  if (!req.params.customerId || !req.params.workspaceId)
+    return res.status(400).send({
+      success: false,
+      message: "Customer id and workspace id are required",
+    });
+  const { workspaceId, customerId } = req.params;
+  var query = `select * from Reviews where workspaceId = '${workspaceId}' and customerId = '${customerId}'`;
+  var result = await executeQuery(query);
+  if (result && result.length)
+    return res.send({
+      success: true,
+      count: 1,
+      comment: result[0].comment,
+      starRating: result[0].starRating,
+    });
+
+  query = `select workspaceId from checkOut, checkIn where checkInId = checkIn.id and customerId = '${customerId}' and workspaceId='${workspaceId}'`;
+  result = await executeQuery(query);
+
+  if (!result || !result.length) {
+    return res.send({
+      success: false,
+      message: `Customer with id ${customerId} never checked out of this workspace before`,
+    });
+  }
+
+  return res.send({ success: true, count: 0 });
+});
 router.post("/:workspaceId", async (req, res) => {
   if (!req.body.customerId || !req.body.starRating || !req.body.comment)
     return res.status(400).send({

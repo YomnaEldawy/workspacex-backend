@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
     result = await executeQuery(query);
     return res.send({ success: true, message: "Report submitted", result });
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .send({ success: false, message: "Error submitting report" });
