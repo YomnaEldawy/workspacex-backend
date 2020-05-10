@@ -2,6 +2,35 @@ const express = require("express");
 const router = express.Router();
 const executeQuery = require("../config/db");
 
+router.get("/types", async (req, res) => {
+  var query = `select * from reportTypes`;
+  var result = await executeQuery(query);
+  res.send(result);
+});
+
+router.post("/status", async (req, res) => {
+  if (!req.body.customerId || !req.body.workspaceId) {
+    console.log(req.body);
+    return res.status(400).send({
+      success: false,
+      message: "customerId, workspaceId and reportType are required",
+    });
+  }
+  const { customerId, workspaceId } = req.body;
+
+  var query = `select * from checkIn where customerId = '${customerId}' and workspaceId='${workspaceId}' and requestId not in (select checkInId from checkOut);`;
+  var result = await executeQuery(query);
+  if (!result || !result.length)
+    return res.send({
+      success: false,
+      message: "This customer is not currently checked in",
+    });
+  return res.send({
+    success: true,
+    message: "Customer is currently checked in",
+  });
+});
+
 router.post("/", async (req, res) => {
   if (!req.body.customerId || !req.body.workspaceId || !req.body.reportType)
     return res.status(400).send({
