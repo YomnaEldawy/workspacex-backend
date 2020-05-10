@@ -18,8 +18,9 @@ router.post("/status", async (req, res) => {
   }
   const { customerId, workspaceId } = req.body;
 
-  var query = `select * from checkIn where customerId = '${customerId}' and workspaceId='${workspaceId}' and requestId not in (select checkInId from checkOut);`;
+  var query = `select * from checkIn where customerId = '${customerId}' and workspaceId='${workspaceId}' and id not in (select checkInId from checkOut);`;
   var result = await executeQuery(query);
+  console.log(result);
   if (!result || !result.length)
     return res.send({
       success: false,

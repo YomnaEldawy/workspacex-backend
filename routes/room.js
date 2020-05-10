@@ -8,8 +8,7 @@ router.post("/new", async (req, res) => {
     !req.body.pricePerHour ||
     !req.body.pricePerDay ||
     !req.body.description ||
-    !req.body.seatsNumber ||
-    !req.body.roomId
+    !req.body.seatsNumber
   ) {
     return res.status(400).send("required field missing");
   }
@@ -20,8 +19,16 @@ router.post("/new", async (req, res) => {
     pricePerDay,
     description,
     seatsNumber,
-    roomId,
   } = req.body;
+
+  var maximumId = `select max(roomId) as maxRoom from workspaceRoom where workspaceId='${workspaceId}'`;
+  var roomId = 1;
+  try {
+    var maxResult = await executeQuery(maximumId);
+    if (maxResult && maxResult.length) {
+      roomId = maxResult[0].maxRoom + 1;
+    }
+  } catch (e) {}
   var query = `select * from Workspace where id = '${workspaceId}'`;
   var result = await executeQuery(query);
   if (!result || !result.length)
@@ -33,12 +40,10 @@ router.post("/new", async (req, res) => {
     result = await executeQuery(query);
     res.send({ success: true, message: "Room added successfully" });
   } catch (err) {
-    res
-      .status(500)
-      .send({
-        success: false,
-        message: "Could not add workspace room" + err.message,
-      });
+    res.status(500).send({
+      success: false,
+      message: "Could not add workspace room" + err.message,
+    });
   }
 });
 
