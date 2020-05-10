@@ -49,11 +49,11 @@ router.get("/amenities/:workspaceId", async (req, res) => {
   );
   return res.send(result);
 });
-router.get("/room/:workspaceId/:roomId", async (req, res) => {
+router.get("/room/:workspaceId", async (req, res) => {
   const wsId = req.params.workspaceId;
   const roomId = req.params.roomId;
   var result = await executeQuery(
-    `select roomId, pricePerHour, pricePerDay, description, seatsNumber from workspaceRoom where workspaceId = ${wsId} and roomId = ${roomId};`
+    `select roomId, pricePerHour, pricePerDay, description, seatsNumber from workspaceRoom where workspaceId = ${wsId};`
   );
   return res.send(result);
 });

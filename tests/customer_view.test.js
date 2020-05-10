@@ -96,7 +96,7 @@ describe("customer_view", () => {
       "insert into workspaceRoom (workspaceId, roomId, pricePerHour, pricePerDay, description, seatsNumber) values ('10104','1','10', '100','Nice Room', '20');"
     );
     const res = await request(server)
-      .get("/customer_view/room/10104/1")
+      .get("/customer_view/room/10104")
       .send({});
     expect(res.body[0].seatsNumber).toBe(20);
     expect(res.body.length).toBe(1);
