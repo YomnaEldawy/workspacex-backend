@@ -3,8 +3,8 @@ const app = express();
 const cors = require("cors");
 var bodyParser = require("body-parser");
 
-app.use(bodyParser.json({ limit: "10000mb", extended: true }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "10000mb" }));
+app.use(bodyParser.json({ limit: "1000mb", extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "1000mb" }));
 app.use(cors());
 // app.use(express.json());
 
@@ -21,6 +21,7 @@ app.use("/report", require("./routes/report"));
 app.use("/room", require("./routes/room"));
 app.use("/customer_view", require("./routes/customer_view"));
 app.use("/images", require("./routes/images"));
+app.use("/profile", require("./routes/profile"));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
