@@ -22,6 +22,7 @@ app.use("/room", require("./routes/room"));
 app.use("/customer_view", require("./routes/customer_view"));
 app.use("/images", require("./routes/images"));
 app.use("/profile", require("./routes/profile"));
+app.use("/event", require("./routes/event"));
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
